@@ -4,7 +4,7 @@ Sachet is a scam-message detector for SMS and WhatsApp messages written in Hingl
 
 The name comes from the Hindi word *sachet* (सचेत), meaning "alert" or "vigilant".
 
-**Live demo:** _link to be added after deployment_
+**Live demo:** https://sachet-scam-check.streamlit.app/
 
 ---
 
