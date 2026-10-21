@@ -73,11 +73,12 @@ data = data[data["label"].isin(["scam", "safe"])]          # drop bad labels
 data = data[data["text"].str.len() > 3]                     # drop empty rows
 data = data.drop_duplicates(subset="text")                  # drop exact repeats
 
-# never let test messages leak into training
-test_path = DATA / "test_messages.csv"
-if test_path.exists():
-    test_texts = set(pd.read_csv(test_path)["text"].str.strip())
-    data = data[~data["text"].isin(test_texts)]
+# never let test / check messages leak into training
+for held_out in ["test_messages.csv", "fresh_messages.csv"]:
+    path = DATA / held_out
+    if path.exists():
+        held_texts = set(pd.read_csv(path)["text"].str.strip())
+        data = data[~data["text"].isin(held_texts)]
 
 out = DATA / "combined.csv"
 data.to_csv(out, index=False)

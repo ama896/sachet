@@ -6,6 +6,8 @@ Every row is a message plus a label: `scam` or `safe`.
 |---|---|
 | `messages.csv` | ~830 synthetic Hinglish/English messages from `scripts/make_dataset.py` (35 scam patterns, 35 safe patterns) |
 | `test_messages.csv` | 36 hand-written messages with **different wording**. Never used for training, only for checking the model honestly |
+| `fresh_messages.csv` | 16 everyday Indian messages (bank alerts, transaction OTPs, common scams). Second held-out check, never used for training |
+| `claude_messages.csv` | ~310 realistic messages hand-written by Claude (synthetic, not real) |
 | `real_messages.csv` | Real messages **you** collect (2 examples inside, add more) |
 | `raw/hf_scam.json` | Optional: Hugging Face dataset, download yourself (see below) |
 | `combined.csv` | Final merged file, built by `scripts/build_dataset.py` — this is what training uses |
@@ -16,6 +18,8 @@ Every row is a message plus a label: `scam` or `safe`.
 3. License is CC-BY-4.0 → credit "Anuj Bolewar" in your project README
 
 Heads-up: most of it is English (from the UCI SMS Spam set), and its "spam" includes plain ads, not just scams. Only ~63 rows are Hinglish.
+
+**Currently NOT used for training** (see `EXCLUDE_SOURCES` in `src/train.py`). Its safe messages are almost all casual chat and its scam messages almost all formal, so the model learned "formal message with an amount = scam". With it, 4 of 8 genuine Indian bank/payment alerts in `fresh_messages.csv` were flagged as scams; without it, none were. It's still merged into `combined.csv`, so removing it from `EXCLUDE_SOURCES` brings it back.
 
 ## Step 2 — Collect real messages (the most valuable part)
 Where to find them:
